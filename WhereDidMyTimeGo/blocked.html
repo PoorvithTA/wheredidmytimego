@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Limit Reached - WhereDidMyTimeGo</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body class="dashboard-body">
+    <div class="blocked-container">
+      <!-- Blocked Content -->
+      <div class="blocked-content">
+        <!-- Icon -->
+        <div class="blocked-icon-wrapper">
+          <span class="material-symbols-rounded blocked-icon">block</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="blocked-title">Time Limit Reached</h1>
+
+        <!-- Message -->
+        <p class="blocked-message">
+          You've reached your daily time limit for this site.<br />
+          Take a break and come back tomorrow, or adjust your limit in settings.
+        </p>
+
+        <!-- Actions -->
+        <div class="blocked-actions">
+          <button id="goBack" class="secondary-button">
+            <span class="material-symbols-rounded">arrow_back</span>
+            <span>Go Back</span>
+          </button>
+          <a href="stats.html">
+            <button id="openDashboard" class="primary-button">
+              <span class="material-symbols-rounded">settings</span>
+              <span>Manage Limits</span>
+            </button>
+          </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="blocked-footer">
+          <span class="material-symbols-rounded">schedule</span>
+          <span
+            >WhereDidMyTimeGo • Helping you build better digital habits</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Parse URL parameters
+      const params = new URLSearchParams(window.location.search);
+      const domain = params.get("domain");
+      const timeSpent = parseInt(params.get("time")) || 0;
+      const limit = parseInt(params.get("limit")) || 0;
+
+      // Format time
+      function formatTime(sec) {
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        if (h === 0) return `${m}m`;
+        return `${h}h ${m}m`;
+      }
+
+      // Get domain display name
+      function getDomainName(domain) {
+        if (domain === "browser-settings") return "Browser Settings";
+        if (domain === "localhost") return "Localhost Development";
+        return domain;
+      }
+
+      // Display data
+      if (domain) {
+        document.getElementById("domainDisplay").textContent =
+          getDomainName(domain);
+      }
+      document.getElementById("timeSpent").textContent = formatTime(timeSpent);
+      document.getElementById("dailyLimit").textContent = formatTime(limit);
+
+      // Button actions
+      document.getElementById("goBack").addEventListener("click", () => {
+        window.history.back();
+      });
+    </script>
+  </body>
+</html>
